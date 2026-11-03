@@ -19,6 +19,8 @@
             />
             <Button Content="Add Pack" 
                     Command="{Binding AddPackCommand}"/>
+            <Button Content="Remove Pack" 
+                    Command="{Binding RemovePackCommand}"/>
             <ListBox ItemsSource="{Binding Packs}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

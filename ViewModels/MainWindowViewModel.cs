@@ -9,8 +9,8 @@ internal class MainWindowViewModel : ViewModelBase
     public ObservableCollection<QuestionPackViewModel> Packs { get; } 
         = new ObservableCollection<QuestionPackViewModel>(); //Skapar en tom lista med QuestionPacks
 
-    private QuestionPackViewModel _activePack;
-    public QuestionPackViewModel ActivePack
+    private QuestionPackViewModel? _activePack;
+    public QuestionPackViewModel? ActivePack
 	{
 		get => _activePack;
         set
