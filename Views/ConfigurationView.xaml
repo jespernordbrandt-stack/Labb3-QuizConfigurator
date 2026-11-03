@@ -17,6 +17,16 @@
                 Command="{Binding ChangePackNameCommand}"
                 CommandParameter="My sample parameter"
             />
+            <Button Content="Add Pack" 
+                    Command="{Binding AddPackCommand}"/>
+            <ListBox ItemsSource="{Binding Packs}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
         </StackPanel>
     </Grid>
 </UserControl>

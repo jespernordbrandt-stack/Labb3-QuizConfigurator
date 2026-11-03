@@ -1,4 +1,6 @@
 ﻿using Labb_3.Command;
+using Labb_3.Models;
+using System.Collections.ObjectModel;
 
 namespace Labb_3.ViewModels;
 
@@ -7,6 +9,8 @@ internal class ConfigurationViewModel : ViewModelBase
     private readonly MainWindowViewModel? _mainWindowViewModel;
 
     public RelayCommand ChangePackNameCommand { get; }
+
+    public RelayCommand AddPackCommand { get; } //Command som lägger till ett nytt QuestionPack
 
     private string _demoText = string.Empty;
     public string DemoText {
@@ -20,7 +24,15 @@ internal class ConfigurationViewModel : ViewModelBase
         }
     }
 
-    public QuestionPackViewModel? ActivePack { get => _mainWindowViewModel?.ActivePack; }
+    public ObservableCollection<QuestionPackViewModel> Packs
+    {
+        get => _mainWindowViewModel!.Packs;
+    }
+
+    public QuestionPackViewModel? ActivePack 
+    { 
+        get => _mainWindowViewModel?.ActivePack; 
+    }
 
     public void RaiseActivePackChanged() => RaisePropertyChanged(nameof(ActivePack));
 
@@ -29,6 +41,8 @@ internal class ConfigurationViewModel : ViewModelBase
         _mainWindowViewModel = mainWindowViewModel;
 
         ChangePackNameCommand = new RelayCommand(_ => ChangePackName(), _ => DemoText != string.Empty);
+
+        AddPackCommand = new RelayCommand(_ => AddPack()); //kopplar AddPackCommand till AddPack metoden
     }
 
     private bool CanChangePackName(object? arg)
@@ -39,5 +53,13 @@ internal class ConfigurationViewModel : ViewModelBase
     private void ChangePackName()
     {
         ActivePack?.Name = DemoText;
+    }
+
+    private void AddPack() //Skapar ett nytt QuestionPack och lägger till det i listan med QuestionPacks i MainWindowViewModel
+    {
+        QuestionPack questionPack = new QuestionPack("Nytt pack", Difficulty.Easy); //skapar ett nytt paket
+        QuestionPackViewModel packViewModel = new QuestionPackViewModel(questionPack); //skapar en viewmodel för paketet
+        _mainWindowViewModel?.Packs.Add(packViewModel); //lägger till paketet i listan med QuestionPacks i MainWindowViewModel
+        _mainWindowViewModel.ActivePack = packViewModel; //gör det nya paketet till det aktiva paketet
     }
 }
