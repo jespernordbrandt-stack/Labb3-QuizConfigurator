@@ -14,6 +14,8 @@ internal class ConfigurationViewModel : ViewModelBase
 
     public RelayCommand RemovePackCommand { get; } //Command som tar bort ett QuestionPack
 
+    public RelayCommand AddQuestionCommand { get; } //Command som lägger till en ny fråga i det aktiva QuestionPack
+
     private string _demoText = string.Empty;
     public string DemoText {
         get => _demoText;
@@ -47,6 +49,8 @@ internal class ConfigurationViewModel : ViewModelBase
         AddPackCommand = new RelayCommand(_ => AddPack()); //kopplar AddPackCommand till AddPack metoden
 
         RemovePackCommand = new RelayCommand(_=> RemovePack(), _=> ActivePack != null); //kopplar RemovePackCommand till RemovePack metoden och gör att den bara kan köras om ActivePack inte är null
+
+        AddQuestionCommand = new RelayCommand(_ => AddQuestion(), _ => ActivePack != null); //kopplar AddQuestionCommand till AddQuestion metoden och gör att den bara kan köras om ActivePack inte är null
     }
 
     private bool CanChangePackName(object? arg)
@@ -75,5 +79,16 @@ internal class ConfigurationViewModel : ViewModelBase
         }
         _mainWindowViewModel?.Packs.Remove(ActivePack); //Tar bort det aktiva paketet från listan med QuestionPacks i MainWindowViewModel
         _mainWindowViewModel!.ActivePack = _mainWindowViewModel.Packs.FirstOrDefault();
+    }
+
+    private void AddQuestion()
+    {
+        if (ActivePack == null)
+        {
+            return;
+        }
+        Question question = new Question("Ny fråga", "Rätt svar", "Fel svar 1", "Fel svar 2", "Fel svar 3"); //Skapar en ny fråga
+
+        ActivePack.Questions.Add(question); //Lägger till frågan i det aktiva paketet
     }
 }

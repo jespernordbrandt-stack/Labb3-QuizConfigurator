@@ -21,6 +21,15 @@
                     Command="{Binding AddPackCommand}"/>
             <Button Content="Remove Pack" 
                     Command="{Binding RemovePackCommand}"/>
+            <Button Content="Add Question" 
+                    Command="{Binding AddQuestionCommand}"/>
+            <ListBox ItemsSource="{Binding ActivePack.Questions}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Query}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             <ListBox ItemsSource="{Binding Packs}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
