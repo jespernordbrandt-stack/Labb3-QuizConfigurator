@@ -23,6 +23,12 @@
                     Command="{Binding RemovePackCommand}"/>
             <Button Content="Add Question" 
                     Command="{Binding AddQuestionCommand}"/>
+            <Button Content="Remove Question" 
+                    Command="{Binding RemoveQuestionCommand}"/>
+            <ListBox ItemsSource="{Binding ActivePack.Questions}"
+                     SelectedItem="{Binding SelectedQuestion}"/>
+            <TextBlock Text="{Binding SelectedQuestion.Query}"/>
+
             <ListBox ItemsSource="{Binding ActivePack.Questions}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
