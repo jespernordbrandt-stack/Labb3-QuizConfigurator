@@ -15,17 +15,13 @@
                 HorizontalAlignment="Center"
                 Content="{Binding ActivePack.Name}"
                 Command="{Binding ChangePackNameCommand}"
-                CommandParameter="My sample parameter"
-            />
+                CommandParameter="My sample parameter" />
 
             <TextBlock Text="Pack Name" />
             <TextBox Text="{Binding ActivePack.Name}" />
 
             <TextBlock Text="Time Limit (seconds)" />
             <TextBox Text="{Binding ActivePack.TimeLimitInSeconds}" />
-
-            <TextBlock Text="Difficulty" />
-            <TextBlock Text="{Binding ActivePack.Difficulty}" />
 
             <ListBox ItemsSource="{Binding ActivePack.Questions}"
                     SelectedItem="{Binding SelectedQuestion}">
@@ -35,6 +31,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+
             <ListBox ItemsSource="{Binding Packs}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -42,6 +39,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            
             <TextBlock Text="Question"/>
             <TextBox Text="{Binding SelectedQuestion.Query}"/>
 
@@ -56,6 +54,11 @@
 
             <TextBlock Text="Wrong Answer 3" />
             <TextBox Text="{Binding SelectedQuestion.IncorrectAnswers[2]}" />
+            
+            <TextBlock Text="Difficulty" />
+            <ComboBox ItemsSource="{Binding ActivePack.Difficulties}"
+                    SelectedItem="{Binding ActivePack.Difficulty}" >
+            </ComboBox>
         </StackPanel>
     </Grid>
 </UserControl>

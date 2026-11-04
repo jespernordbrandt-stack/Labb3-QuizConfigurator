@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System;
+using System.Collections.Generic;
 
 namespace Labb_3.ViewModels;
 
@@ -56,5 +58,5 @@ internal class QuestionPackViewModel : ViewModelBase
 
     public ObservableCollection<Question> Questions { get; }
 
-   
+   public IEnumerable<Difficulty> Difficulties => Enum.GetValues<Difficulty>();
 }
