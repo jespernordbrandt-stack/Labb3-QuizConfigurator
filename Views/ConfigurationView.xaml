@@ -18,6 +18,14 @@
                 CommandParameter="My sample parameter"
             />
 
+            <TextBlock Text="Pack Name" />
+            <TextBox Text="{Binding ActivePack.Name}" />
+
+            <TextBlock Text="Time Limit (seconds)" />
+            <TextBox Text="{Binding ActivePack.TimeLimitInSeconds}" />
+
+            <TextBlock Text="Difficulty" />
+            <TextBlock Text="{Binding ActivePack.Difficulty}" />
 
             <ListBox ItemsSource="{Binding ActivePack.Questions}"
                     SelectedItem="{Binding SelectedQuestion}">
