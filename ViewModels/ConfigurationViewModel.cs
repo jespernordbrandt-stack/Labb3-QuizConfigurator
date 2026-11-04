@@ -46,6 +46,13 @@ internal class ConfigurationViewModel : ViewModelBase
     public QuestionPackViewModel? ActivePack 
     { 
         get => _mainWindowViewModel?.ActivePack; 
+        set
+        {
+            if (_mainWindowViewModel != null)
+            {
+                _mainWindowViewModel.ActivePack = value;
+            }
+        }
     }
 
     public void RaiseActivePackChanged() => RaisePropertyChanged(nameof(ActivePack));

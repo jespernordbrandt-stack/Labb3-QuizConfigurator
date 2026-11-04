@@ -32,7 +32,8 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ListBox ItemsSource="{Binding Packs}">
+            <ListBox ItemsSource="{Binding Packs}"
+                     SelectedItem="{Binding ActivePack}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
@@ -44,7 +45,7 @@
             <TextBox Text="{Binding SelectedQuestion.Query}"/>
 
             <TextBlock Text="Correct Answer"/>
-            <TextBlock Text="{Binding SelectedQuestion.CorrectAnswer}"/>
+            <TextBox Text="{Binding SelectedQuestion.CorrectAnswer}"/>
 
             <TextBlock Text="Wrong Answer 1" />
             <TextBox Text="{Binding SelectedQuestion.IncorrectAnswers[0]}" />
