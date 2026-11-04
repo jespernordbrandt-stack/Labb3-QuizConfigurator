@@ -17,19 +17,10 @@
                 Command="{Binding ChangePackNameCommand}"
                 CommandParameter="My sample parameter"
             />
-            <Button Content="Add Pack" 
-                    Command="{Binding AddPackCommand}"/>
-            <Button Content="Remove Pack" 
-                    Command="{Binding RemovePackCommand}"/>
-            <Button Content="Add Question" 
-                    Command="{Binding AddQuestionCommand}"/>
-            <Button Content="Remove Question" 
-                    Command="{Binding RemoveQuestionCommand}"/>
-            <ListBox ItemsSource="{Binding ActivePack.Questions}"
-                     SelectedItem="{Binding SelectedQuestion}"/>
-            <TextBlock Text="{Binding SelectedQuestion.Query}"/>
 
-            <ListBox ItemsSource="{Binding ActivePack.Questions}">
+
+            <ListBox ItemsSource="{Binding ActivePack.Questions}"
+                    SelectedItem="{Binding SelectedQuestion}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Query}"/>
@@ -42,8 +33,21 @@
                         <TextBlock Text="{Binding Name}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-
             </ListBox>
+            <TextBlock Text="Question"/>
+            <TextBox Text="{Binding SelectedQuestion.Query}"/>
+
+            <TextBlock Text="Correct Answer"/>
+            <TextBlock Text="{Binding SelectedQuestion.CorrectAnswer}"/>
+
+            <TextBlock Text="Wrong Answer 1" />
+            <TextBox Text="{Binding SelectedQuestion.IncorrectAnswers[0]}" />
+
+            <TextBlock Text="Wrong Answer 2" />
+            <TextBox Text="{Binding SelectedQuestion.IncorrectAnswers[1]}" />
+
+            <TextBlock Text="Wrong Answer 3" />
+            <TextBox Text="{Binding SelectedQuestion.IncorrectAnswers[2]}" />
         </StackPanel>
     </Grid>
 </UserControl>
