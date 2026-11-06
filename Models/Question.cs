@@ -2,6 +2,13 @@
 
 class Question
 {
+    public Question()
+    {
+        Query = string.Empty;
+        CorrectAnswer = string.Empty;
+        IncorrectAnswers = new string[3];
+    }
+
     public Question(string query, string correctAnswer, string incorrectAnswer1, string incorrectAnswer2, string incorrectAnswer3)
     {
         Query = query;

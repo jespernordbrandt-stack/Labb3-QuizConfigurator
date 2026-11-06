@@ -4,6 +4,7 @@ using Labb_3.Services;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 namespace Labb_3.ViewModels;
 
@@ -52,7 +53,7 @@ internal class MainWindowViewModel : ViewModelBase
 
     public async Task SavePacksAsync()
     {
-        string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         string folderPath = Path.Combine(appDataPath, "Labb_3");
 
@@ -65,7 +66,7 @@ internal class MainWindowViewModel : ViewModelBase
         await _jsonService.SaveAsync(packs, filePath);
     }
 
-    private async Task LoadPacksAsync()
+    public async Task LoadPacksAsync()
     {
         string appDataPath =
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -82,6 +83,7 @@ internal class MainWindowViewModel : ViewModelBase
         {
             Packs.Add(new QuestionPackViewModel(pack));
         }
+        MessageBox.Show(packs[0].Questions.Count.ToString());
 
         ActivePack = Packs.FirstOrDefault();
     }

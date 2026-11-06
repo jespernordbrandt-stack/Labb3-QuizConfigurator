@@ -13,6 +13,18 @@ internal class QuestionPackViewModel : ViewModelBase
 
     public QuestionPack Model => _model;
 
+    public void AddQuestion(Question question)
+    {
+        Questions.Add(question);
+        _model.Questions.Add(question);
+    }
+
+    public void RemoveQuestion(Question question)
+    {
+        Questions.Remove(question);
+        _model.Questions.Remove(question);
+    }
+
     public QuestionPackViewModel(QuestionPack model)
     {
         _model = model;

@@ -33,6 +33,9 @@
             </ListBox>
             
             <Button Content="Save Packs" Command="{Binding SavePacksCommand}" />
+            <Button Content="Load Packs" Command="{Binding LoadPacksCommand}" />
+            <Button Content="Add Question" Command="{Binding AddQuestionCommand}" />
+            <Button Content="Add Pack" Command="{Binding AddPackCommand}" />
 
             <ListBox ItemsSource="{Binding Packs}"
                      SelectedItem="{Binding ActivePack}">
