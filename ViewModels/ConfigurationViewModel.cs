@@ -18,6 +18,8 @@ internal class ConfigurationViewModel : ViewModelBase
 
     public RelayCommand RemoveQuestionCommand { get; } //Command som tar bort en fråga från det aktiva QuestionPack
 
+    public RelayCommand SavePacksCommand { get; }
+
     private Question? _selectedQuestion;
 
     public Question? SelectedQuestion
@@ -48,7 +50,7 @@ internal class ConfigurationViewModel : ViewModelBase
         get => _mainWindowViewModel?.ActivePack; 
         set
         {
-            if (_mainWindowViewModel != null)
+            if (_mainWindowViewModel != null) 
             {
                 _mainWindowViewModel.ActivePack = value;
             }
@@ -70,6 +72,8 @@ internal class ConfigurationViewModel : ViewModelBase
         AddQuestionCommand = new RelayCommand(_ => AddQuestion(), _ => ActivePack != null); //kopplar AddQuestionCommand till AddQuestion metoden och gör att den bara kan köras om ActivePack inte är null
 
         RemoveQuestionCommand = new RelayCommand(_ => RemoveQuestion(), _ => ActivePack != null); //kopplar RemoveQuestionCommand till RemoveQuestion metoden och gör att den bara kan köras om ActivePack inte är null och det finns frågor i ActivePack
+
+        SavePacksCommand = new RelayCommand(async _ => await SaveAsync());
     }
 
     private bool CanChangePackName(object? arg)
@@ -126,5 +130,10 @@ internal class ConfigurationViewModel : ViewModelBase
         ActivePack.Questions.Remove(SelectedQuestion);
 
         SelectedQuestion = null;
+    }
+
+    private async Task SaveAsync()
+    {
+        await _mainWindowViewModel!.SavePacksAsync();
     }
 }

@@ -31,6 +31,8 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            
+            <Button Content="Save Packs" Command="{Binding SavePacksCommand}" />
 
             <ListBox ItemsSource="{Binding Packs}"
                      SelectedItem="{Binding ActivePack}">

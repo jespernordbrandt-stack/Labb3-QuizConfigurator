@@ -1,6 +1,9 @@
 ﻿using Labb_3.Command;
 using Labb_3.Models;
+using Labb_3.Services;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 
 namespace Labb_3.ViewModels;
 
@@ -44,4 +47,44 @@ internal class MainWindowViewModel : ViewModelBase
 
         ActivePack = packViewModel; //Väljer paketet
     }
+
+    private readonly JsonService _jsonService = new ();
+
+    public async Task SavePacksAsync()
+    {
+        string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+        string folderPath = Path.Combine(appDataPath, "Labb_3");
+
+        Directory.CreateDirectory(folderPath);
+
+        string filePath = Path.Combine(folderPath, "packs.json");
+
+        List<QuestionPack> packs = Packs.Select(pack => pack.Model).ToList();
+        
+        await _jsonService.SaveAsync(packs, filePath);
+    }
+
+    private async Task LoadPacksAsync()
+    {
+        string appDataPath =
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+        string folderPath = Path.Combine(appDataPath, "Labb_3");
+
+        string filePath = Path.Combine(folderPath, "packs.json");
+
+        List<QuestionPack> packs = await _jsonService.LoadAsync(filePath);
+
+        Packs.Clear();
+
+        foreach (QuestionPack pack in packs)
+        {
+            Packs.Add(new QuestionPackViewModel(pack));
+        }
+
+        ActivePack = Packs.FirstOrDefault();
+    }
+
+    
 }
