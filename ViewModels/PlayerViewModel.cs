@@ -88,7 +88,11 @@ internal class PlayerViewModel : ViewModelBase
             {
                 answers.Add(answer);
             }
-            
+
+            Random random = new();
+
+            answers = answers.OrderBy(_ => random.Next()).ToList();
+
             return answers;
         }
     }
