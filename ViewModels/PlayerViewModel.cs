@@ -22,7 +22,17 @@ internal class PlayerViewModel : ViewModelBase
     {
         get
         {
-            return _mainWindowViewModel?.ActivePack?.Questions.FirstOrDefault();
+            if (_mainWindowViewModel?.ActivePack == null)
+            {
+                return null;
+            }
+
+            if (CurrentQuestionIndex >= _mainWindowViewModel.ActivePack.Questions.Count)
+            {
+                return null;
+            }
+            
+            return _mainWindowViewModel.ActivePack.Questions[CurrentQuestionIndex];
         }
     }
 
@@ -87,6 +97,36 @@ internal class PlayerViewModel : ViewModelBase
         }
 
         RaisePropertyChanged(nameof(ResultText));
+
+        NextQuestion();
+    }
+
+    private int _currentQuestionIndex = 0;
+
+    public int CurrentQuestionIndex
+    {
+        get => _currentQuestionIndex;
+        set
+        {
+            if (SetProperty(ref _currentQuestionIndex, value))
+            {
+                RaisePropertyChanged(nameof(CurrentQuestion));
+                RaisePropertyChanged(nameof(Answers));
+            }
+        }
+    }
+
+    private void NextQuestion()
+    {
+        if (_mainWindowViewModel?.ActivePack == null)
+        {
+            return;
+        }
+
+        if (CurrentQuestionIndex < _mainWindowViewModel.ActivePack.Questions.Count - 1)
+        {
+            CurrentQuestionIndex++;
+        }
     }
 }
 
