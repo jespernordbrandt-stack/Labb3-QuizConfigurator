@@ -95,7 +95,7 @@ internal class ConfigurationViewModel : ViewModelBase
         QuestionPack questionPack = new QuestionPack("Nytt pack", Difficulty.Easy); //skapar ett nytt paket
         QuestionPackViewModel packViewModel = new QuestionPackViewModel(questionPack); //skapar en viewmodel för paketet
         _mainWindowViewModel?.Packs.Add(packViewModel); //lägger till paketet i listan med QuestionPacks i MainWindowViewModel
-        _mainWindowViewModel.ActivePack = packViewModel; //gör det nya paketet till det aktiva paketet
+        _mainWindowViewModel?.ActivePack = packViewModel; //gör det nya paketet till det aktiva paketet
     }
 
     private void RemovePack()

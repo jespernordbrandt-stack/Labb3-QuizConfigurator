@@ -12,18 +12,19 @@
                 <MenuItem Header="_New Question pack" />
                 <MenuItem Header="E_xit" InputGestureText="Alt+F4" />
             </MenuItem>
-            <MenuItem Header="_Edit">
-                <MenuItem 
-                    Header="Set Pack _Name" 
-                    InputGestureText="Ctrl+N"
-                    Command="{Binding ConfigurationViewModel.ChangePackNameCommand}"
-                />
-                <MenuItem Header="Copy"/>
-                <MenuItem Header="Paste"/>
-                <MenuItem Header="Test">
-                    <MenuItem Header="Copy"/>
-                    <MenuItem Header="Paste"/>
-                </MenuItem>
+
+            <MenuItem Header="_Edit"/>
+            <MenuItem Header="Set Pack _Name"
+            InputGestureText="Ctrl+N"
+            Command="{Binding ConfigurationViewModel.ChangePackNameCommand}" />
+
+
+            <MenuItem Header="_View">
+                <MenuItem Header="_Edit Mode" 
+                          Command="{Binding ShowEditModeCommand}"/>
+
+                <MenuItem Header="_Play Mode" 
+                          Command="{Binding ShowPlayModeCommand}"/>
             </MenuItem>
         </Menu>
     </Grid>

@@ -2,9 +2,11 @@
 using Labb_3.Models;
 using Labb_3.Services;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Labb_3.ViewModels;
 
@@ -26,6 +28,17 @@ internal class MainWindowViewModel : ViewModelBase
         }
 	}
 
+    public RelayCommand ShowPlayModeCommand { get; }
+    public RelayCommand ShowEditModeCommand { get; }
+
+    private bool _isplayMode;
+
+    public bool IsPlayMode
+    {
+        get => _isplayMode;
+        set => SetProperty(ref _isplayMode, value);
+    }
+
     public PlayerViewModel? PlayerViewModel { get; }
     public ConfigurationViewModel? ConfigurationViewModel { get; }
 
@@ -35,7 +48,9 @@ internal class MainWindowViewModel : ViewModelBase
 		PlayerViewModel = new PlayerViewModel(this);
         ConfigurationViewModel = new ConfigurationViewModel(this);
 
-        
+        ShowPlayModeCommand = new RelayCommand(_ => IsPlayMode = true);
+
+        ShowEditModeCommand = new RelayCommand(_ => IsPlayMode = false);
 
         var questionPack = new QuestionPack("Mina frågor!", Difficulty.Easy); //Skapar ett testpaket
         

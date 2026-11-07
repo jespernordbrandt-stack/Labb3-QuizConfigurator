@@ -5,9 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb_3"
         xmlns:views="clr-namespace:Labb_3.Views"
+        xmlns:converters="clr-namespace:Labb_3.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-   
+    <Window.Resources>
+        
+        <converters:BoolToVisibilityConverter
+                x:Key="BoolToVisibilityConverter"/>
+        <converters:InverseBoolToVisibilityConverter
+                x:Key="InverseBoolToVisibilityConverter"/>
+        
+    </Window.Resources>
+
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding ConfigurationViewModel.ChangePackNameCommand}" />
     </Window.InputBindings>
@@ -18,8 +27,23 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <views:MenuView Grid.Row="0"/>
-        <views:PlayerView Grid.Row="1" />
-            <!--<views:ConfigurationView Grid.Row="1" />-->
+        <views:MenuView Grid.Row="0" Loaded="MenuView_Loaded"/>
+
+        <views:PlayerView
+    Grid.Row="1"
+    DataContext="{Binding PlayerViewModel}"
+    Visibility="{Binding DataContext.IsPlayMode,
+                         RelativeSource={RelativeSource AncestorType=Window},
+                         Converter={StaticResource BoolToVisibilityConverter}}" />
+
+        <views:ConfigurationView
+    Grid.Row="1"
+    DataContext="{Binding ConfigurationViewModel}"
+    Visibility="{Binding DataContext.IsPlayMode,
+                         RelativeSource={RelativeSource AncestorType=Window},
+                         Converter={StaticResource InverseBoolToVisibilityConverter}}" />
     </Grid>
 </Window>
+
+    
+   

@@ -24,5 +24,10 @@ namespace Labb_3
 
             DataContext = new MainWindowViewModel();
         }
+
+        private void MenuView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
