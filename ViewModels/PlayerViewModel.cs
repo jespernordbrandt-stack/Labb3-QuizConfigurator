@@ -11,6 +11,14 @@ internal class PlayerViewModel : ViewModelBase
 
     public RelayCommand AnswerCommand { get; }
 
+    private int _score;
+
+    public int Score
+    {
+        get => _score;
+        set => SetProperty(ref _score, value);
+    }
+
     public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
     {
         _mainWindowViewModel = mainWindowViewModel;
@@ -22,6 +30,11 @@ internal class PlayerViewModel : ViewModelBase
     {
         get
         {
+            if (IsQuizFinished)
+            {
+                return null;
+            }
+
             if (_mainWindowViewModel?.ActivePack == null)
             {
                 return null;
@@ -40,7 +53,7 @@ internal class PlayerViewModel : ViewModelBase
     {
         get
         {
-            if (CurrentQuestion == null)
+            if (IsQuizFinished || CurrentQuestion == null)
             {
                 return new();
             }
@@ -80,6 +93,14 @@ internal class PlayerViewModel : ViewModelBase
         }
     }
 
+    private bool _isQuizFinished;
+
+    public bool IsQuizFinished
+    {
+        get => _isQuizFinished;
+        set => SetProperty(ref _isQuizFinished, value);
+    }
+
     private void CheckAnswer(object? answer)
     {
         if (CurrentQuestion == null)
@@ -90,6 +111,9 @@ internal class PlayerViewModel : ViewModelBase
         if ((string)answer! == CurrentQuestion.CorrectAnswer)
         {
             ResultText = "Correct!";
+            Score ++;
+
+            RaisePropertyChanged(nameof(ResultScreenText));
         }
         else
         {
@@ -110,6 +134,7 @@ internal class PlayerViewModel : ViewModelBase
         {
             if (SetProperty(ref _currentQuestionIndex, value))
             {
+                RaisePropertyChanged(nameof(ResultScreenText));
                 RaisePropertyChanged(nameof(CurrentQuestion));
                 RaisePropertyChanged(nameof(Answers));
             }
@@ -126,6 +151,26 @@ internal class PlayerViewModel : ViewModelBase
         if (CurrentQuestionIndex < _mainWindowViewModel.ActivePack.Questions.Count - 1)
         {
             CurrentQuestionIndex++;
+        }
+
+        else
+        {
+            IsQuizFinished = true;
+
+            RaisePropertyChanged(nameof(ResultScreenText));
+        }
+    }
+
+    public string ResultScreenText
+    {
+        get
+        {
+            if (_mainWindowViewModel?.ActivePack == null)
+            {
+                return "";
+            }
+            
+            return $"Quiz Completed! You scored {Score} out of {_mainWindowViewModel.ActivePack.Questions.Count}!";
         }
     }
 }

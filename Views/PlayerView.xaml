@@ -32,6 +32,10 @@
 
             <TextBlock Text="{Binding ResultText}" 
            FontSize="20"/>
+            <TextBlock Text="{Binding Score}" FontSize="20"/>
+            
+            <TextBlock Text="{Binding ResultScreenText}"
+                       FontSize="24"/>
             
         </StackPanel>
     </Grid>
