@@ -169,6 +169,11 @@ internal class PlayerViewModel : ViewModelBase
     {
         get
         {
+            if (!IsQuizFinished)
+            {
+                return "";
+            }
+
             if (_mainWindowViewModel?.ActivePack == null)
             {
                 return "";
