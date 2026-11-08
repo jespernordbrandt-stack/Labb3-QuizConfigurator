@@ -10,6 +10,7 @@ internal class PlayerViewModel : ViewModelBase
     public string ResultText { get; set; } = "";
 
     public RelayCommand AnswerCommand { get; }
+    public RelayCommand RestartQuizCommand { get; }
 
     private int _score;
 
@@ -24,6 +25,25 @@ internal class PlayerViewModel : ViewModelBase
         _mainWindowViewModel = mainWindowViewModel;
 
         AnswerCommand = new RelayCommand(answer => CheckAnswer(answer));
+
+        RestartQuizCommand = new RelayCommand(_ => RestartQuiz());
+    }
+
+    
+
+    private void RestartQuiz()
+    {
+        Score = 0;
+        CurrentQuestionIndex = 0;
+        IsQuizFinished = false;
+
+        ResultText = "";
+
+        RaisePropertyChanged(nameof(CurrentQuestion));
+        RaisePropertyChanged(nameof(Answers));
+        RaisePropertyChanged(nameof(ResultScreenText));
+        RaisePropertyChanged(nameof(Score));
+        RaisePropertyChanged(nameof(ResultText));
     }
 
     public Question? CurrentQuestion
