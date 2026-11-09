@@ -48,7 +48,7 @@ internal class MainWindowViewModel : ViewModelBase
 		PlayerViewModel = new PlayerViewModel(this);
         ConfigurationViewModel = new ConfigurationViewModel(this);
 
-        ShowPlayModeCommand = new RelayCommand(_ => IsPlayMode = true);
+        ShowPlayModeCommand = new RelayCommand(_ => { IsPlayMode = true; PlayerViewModel?.StartQuiz(); });
 
         ShowEditModeCommand = new RelayCommand(_ => IsPlayMode = false);
 
@@ -102,6 +102,4 @@ internal class MainWindowViewModel : ViewModelBase
 
         ActivePack = Packs.FirstOrDefault();
     }
-
-    
 }

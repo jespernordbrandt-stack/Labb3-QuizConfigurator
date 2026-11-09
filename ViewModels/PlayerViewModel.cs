@@ -1,11 +1,15 @@
-﻿namespace Labb_3.ViewModels;
-
+﻿
 using Labb_3.Command;
 using Labb_3.Models;
 using System.Linq;
+using System.Windows.Threading;
+
+namespace Labb_3.ViewModels;
+
 internal class PlayerViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel? _mainWindowViewModel;
+    private readonly DispatcherTimer _timer;
 
     public string ResultText { get; set; } = "";
 
@@ -13,11 +17,19 @@ internal class PlayerViewModel : ViewModelBase
     public RelayCommand RestartQuizCommand { get; }
 
     private int _score;
+    private int _timeRemaining;
+    
 
     public int Score
     {
         get => _score;
         set => SetProperty(ref _score, value);
+    }
+
+    public int TimeRemaining
+    {
+        get => _timeRemaining;
+        set => SetProperty(ref _timeRemaining, value);
     }
 
     public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
@@ -27,6 +39,16 @@ internal class PlayerViewModel : ViewModelBase
         AnswerCommand = new RelayCommand(answer => CheckAnswer(answer));
 
         RestartQuizCommand = new RelayCommand(_ => RestartQuiz());
+
+        _timer = new DispatcherTimer();
+
+        _timer.Interval = TimeSpan.FromSeconds(1);
+
+        _timer.Tick += Timer_Tick;
+
+        StartTimer();
+
+
     }
 
     
@@ -44,6 +66,8 @@ internal class PlayerViewModel : ViewModelBase
         RaisePropertyChanged(nameof(ResultScreenText));
         RaisePropertyChanged(nameof(Score));
         RaisePropertyChanged(nameof(ResultText));
+
+        StartTimer();
     }
 
     public Question? CurrentQuestion
@@ -146,7 +170,33 @@ internal class PlayerViewModel : ViewModelBase
 
         RaisePropertyChanged(nameof(ResultText));
 
+        _timer.Stop();
+
         NextQuestion();
+    }
+
+    private void Timer_Tick(object? sender, EventArgs e)
+    {
+        TimeRemaining--;
+
+        if (TimeRemaining <= 0)
+        {
+            _timer.Stop();
+
+            ResultText = "Time's up!";
+
+            RaisePropertyChanged(nameof(ResultText));
+
+            NextQuestion();
+        }
+    }
+
+    public void StartQuiz()
+    {
+        CurrentQuestionIndex = 0;
+        IsQuizFinished = false;
+
+        StartTimer();
     }
 
     private int _currentQuestionIndex = 0;
@@ -165,6 +215,21 @@ internal class PlayerViewModel : ViewModelBase
         }
     }
 
+    private void StartTimer()
+    {
+        if (_mainWindowViewModel?.ActivePack == null)
+        {
+            return;
+        }
+
+        _timer.Stop();
+
+        TimeRemaining =
+            _mainWindowViewModel.ActivePack.TimeLimitInSeconds;
+
+        _timer.Start();
+    }
+
     private void NextQuestion()
     {
         if (_mainWindowViewModel?.ActivePack == null)
@@ -175,10 +240,17 @@ internal class PlayerViewModel : ViewModelBase
         if (CurrentQuestionIndex < _mainWindowViewModel.ActivePack.Questions.Count - 1)
         {
             CurrentQuestionIndex++;
+
+            StartTimer();
+
+            
         }
+        
 
         else
         {
+            _timer.Stop();
+
             IsQuizFinished = true;
 
             RaisePropertyChanged(nameof(ResultScreenText));

@@ -37,6 +37,8 @@
                        FontSize="24"/>
 
             <Button Content="Play Again" Command="{Binding RestartQuizCommand}"/>
+            
+            <TextBlock Text="{Binding TimeRemaining}" FontSize="24"/>
 
         </StackPanel>
     </Grid>
