@@ -112,9 +112,31 @@ internal class MainWindowViewModel : ViewModelBase
         List<TriviaQuestion> questions =
             await service.GetQuestionsAsync(5, 9);
 
+        QuestionPack importedPack =
+            new QuestionPack(
+                "Imported Pack",
+                Difficulty.Easy);
+
+        foreach (TriviaQuestion triviaQuestion in questions)
+        {
+            Question question = new Question(
+                triviaQuestion.Question,
+                triviaQuestion.CorrectAnswer,
+                triviaQuestion.IncorrectAnswers[0],
+                triviaQuestion.IncorrectAnswers[1],
+                triviaQuestion.IncorrectAnswers[2]);
+
+            importedPack.Questions.Add(question);
+        }
+
+        QuestionPackViewModel packViewModel =
+            new QuestionPackViewModel(importedPack);
+
+        Packs.Add(packViewModel);
+
+        ActivePack = packViewModel;
+
         MessageBox.Show(
-            $"Count: {questions.Count}\n" +
-            $"Question: {questions[0].Question}\n" +
-            $"Correct: {questions[0].CorrectAnswer}");
+            $"Imported {questions.Count} questions");
     }
 }
