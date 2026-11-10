@@ -62,6 +62,8 @@ internal class MainWindowViewModel : ViewModelBase
         Packs.Add(packViewModel); // Lägger till paketet i listan med QuestionPacks
 
         ActivePack = packViewModel; //Väljer paketet
+
+        TestApi();
     }
 
     private readonly JsonService _jsonService = new ();
@@ -101,5 +103,18 @@ internal class MainWindowViewModel : ViewModelBase
         MessageBox.Show(packs[0].Questions.Count.ToString());
 
         ActivePack = Packs.FirstOrDefault();
+    }
+
+    private async void TestApi()
+    {
+        OpenTriviaService service = new();
+
+        List<TriviaQuestion> questions =
+            await service.GetQuestionsAsync(5, 9);
+
+        MessageBox.Show(
+            $"Count: {questions.Count}\n" +
+            $"Question: {questions[0].Question}\n" +
+            $"Correct: {questions[0].CorrectAnswer}");
     }
 }
