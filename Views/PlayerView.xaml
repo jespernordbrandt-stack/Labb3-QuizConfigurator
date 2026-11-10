@@ -36,7 +36,9 @@
             <TextBlock Text="{Binding ResultScreenText}"
                        FontSize="24"/>
 
-            <Button Content="Play Again" Command="{Binding RestartQuizCommand}"/>
+            <Button Content="Play Again" 
+                    Command="{Binding RestartQuizCommand}"
+                    Visibility="{Binding IsQuizFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
             
             <TextBlock Text="{Binding TimeRemaining}" FontSize="24"/>
 

@@ -10,6 +10,7 @@ internal class PlayerViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel? _mainWindowViewModel;
     private readonly DispatcherTimer _timer;
+    private readonly DispatcherTimer _answerDelayTimer;
 
     public string ResultText { get; set; } = "";
 
@@ -41,6 +42,11 @@ internal class PlayerViewModel : ViewModelBase
         RestartQuizCommand = new RelayCommand(_ => RestartQuiz());
 
         _timer = new DispatcherTimer();
+        _answerDelayTimer = new DispatcherTimer();
+
+        _answerDelayTimer.Interval = TimeSpan.FromSeconds(2);
+
+        _answerDelayTimer.Tick += AnswerDelayTimer_Tick;
 
         _timer.Interval = TimeSpan.FromSeconds(1);
 
@@ -183,12 +189,18 @@ internal class PlayerViewModel : ViewModelBase
         {
             _timer.Stop();
 
-            ResultText = "Time's up!";
+            ResultText = $"Time's up! Correct answer: {CurrentQuestion?.CorrectAnswer}";
 
             RaisePropertyChanged(nameof(ResultText));
 
-            NextQuestion();
+            _answerDelayTimer.Start();
         }
+    }
+
+    private void AnswerDelayTimer_Tick(object? sender, EventArgs e)
+    {
+        _answerDelayTimer.Stop();
+        NextQuestion();
     }
 
     public void StartQuiz()
