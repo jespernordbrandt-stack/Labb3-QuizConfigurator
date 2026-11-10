@@ -14,24 +14,17 @@ internal class MainWindowViewModel : ViewModelBase
 {
     public ObservableCollection<QuestionPackViewModel> Packs { get; } 
         = new ObservableCollection<QuestionPackViewModel>(); //Skapar en tom lista med QuestionPacks
-
-    private QuestionPackViewModel? _activePack;
-    public QuestionPackViewModel? ActivePack
-	{
-		get => _activePack;
-        set
-        {
-            if (SetProperty(ref _activePack, value))
-            {
-                ConfigurationViewModel?.RaiseActivePackChanged();
-            }
-        }
-	}
-
+    
     public RelayCommand ShowPlayModeCommand { get; }
     public RelayCommand ShowEditModeCommand { get; }
+    public RelayCommand ImportQuestionsCommand { get; }
 
+    private readonly JsonService _jsonService = new();
     private bool _isplayMode;
+    private QuestionPackViewModel? _activePack;
+
+    public PlayerViewModel? PlayerViewModel { get; }
+    public ConfigurationViewModel? ConfigurationViewModel { get; }
 
     public bool IsPlayMode
     {
@@ -39,9 +32,17 @@ internal class MainWindowViewModel : ViewModelBase
         set => SetProperty(ref _isplayMode, value);
     }
 
-    public PlayerViewModel? PlayerViewModel { get; }
-    public ConfigurationViewModel? ConfigurationViewModel { get; }
-
+    public QuestionPackViewModel? ActivePack
+    {
+        get => _activePack;
+        set
+        {
+            if (SetProperty(ref _activePack, value))
+            {
+                ConfigurationViewModel?.RaiseActivePackChanged();
+            }
+        }
+    }
 
     public MainWindowViewModel()
     {
@@ -51,6 +52,8 @@ internal class MainWindowViewModel : ViewModelBase
         ShowPlayModeCommand = new RelayCommand(_ => { IsPlayMode = true; PlayerViewModel?.StartQuiz(); });
 
         ShowEditModeCommand = new RelayCommand(_ => IsPlayMode = false);
+
+        ImportQuestionsCommand = new RelayCommand(async _ => await ImportQuestionsAsync());
 
         var questionPack = new QuestionPack("Mina frågor!", Difficulty.Easy); //Skapar ett testpaket
         
@@ -62,11 +65,7 @@ internal class MainWindowViewModel : ViewModelBase
         Packs.Add(packViewModel); // Lägger till paketet i listan med QuestionPacks
 
         ActivePack = packViewModel; //Väljer paketet
-
-        TestApi();
     }
-
-    private readonly JsonService _jsonService = new ();
 
     public async Task SavePacksAsync()
     {
@@ -105,7 +104,7 @@ internal class MainWindowViewModel : ViewModelBase
         ActivePack = Packs.FirstOrDefault();
     }
 
-    private async void TestApi()
+    private async Task ImportQuestionsAsync()
     {
         OpenTriviaService service = new();
 
