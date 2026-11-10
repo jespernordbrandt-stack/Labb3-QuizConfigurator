@@ -15,6 +15,13 @@
     </Window.Resources>
 
     <Window.InputBindings>
+        <KeyBinding Key="Q"
+            Modifiers="Ctrl"
+            Command="{Binding ConfigurationViewModel.AddQuestionCommand}" />
+
+        <KeyBinding Key="Delete"
+            Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}" />
+
         <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding ConfigurationViewModel.ChangePackNameCommand}" />
     </Window.InputBindings>
 

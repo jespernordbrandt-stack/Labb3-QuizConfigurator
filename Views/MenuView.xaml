@@ -13,7 +13,16 @@
                 <MenuItem Header="E_xit" InputGestureText="Alt+F4" />
             </MenuItem>
 
-            <MenuItem Header="_Edit"/>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Add Question"
+Command="{Binding ConfigurationViewModel.AddQuestionCommand}" />
+
+                <MenuItem Header="_Remove Question"
+Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}" />
+            </MenuItem>
+
+           
+
             <MenuItem Header="Set Pack _Name"
             InputGestureText="Ctrl+N"
             Command="{Binding ConfigurationViewModel.ChangePackNameCommand}" />
