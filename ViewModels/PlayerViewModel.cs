@@ -12,6 +12,8 @@ internal class PlayerViewModel : ViewModelBase
     private readonly DispatcherTimer _timer;
     private readonly DispatcherTimer _answerDelayTimer;
 
+    private List<Question> _shuffledQuestions = new();
+
     public string ResultText { get; set; } = "";
 
     public RelayCommand AnswerCommand { get; }
@@ -73,6 +75,8 @@ internal class PlayerViewModel : ViewModelBase
         RaisePropertyChanged(nameof(Score));
         RaisePropertyChanged(nameof(ResultText));
 
+        ShuffleQuestions();
+
         StartTimer();
     }
 
@@ -94,8 +98,13 @@ internal class PlayerViewModel : ViewModelBase
             {
                 return null;
             }
-            
-            return _mainWindowViewModel.ActivePack.Questions[CurrentQuestionIndex];
+
+            if (CurrentQuestionIndex >= _shuffledQuestions.Count)
+            {
+                return null;
+            }
+
+            return _shuffledQuestions[CurrentQuestionIndex];
         }
     }
 
@@ -208,6 +217,11 @@ internal class PlayerViewModel : ViewModelBase
         CurrentQuestionIndex = 0;
         IsQuizFinished = false;
 
+        ShuffleQuestions();
+
+        RaisePropertyChanged(nameof(CurrentQuestion));
+        RaisePropertyChanged(nameof(Answers));
+
         StartTimer();
     }
 
@@ -267,6 +281,20 @@ internal class PlayerViewModel : ViewModelBase
 
             RaisePropertyChanged(nameof(ResultScreenText));
         }
+    }
+
+    private void ShuffleQuestions()
+    {
+        if (_mainWindowViewModel?.ActivePack == null)
+        {
+            return;
+        }
+        Random random = new();
+        _shuffledQuestions = _mainWindowViewModel.ActivePack.Questions
+            .OrderBy(_ => random.Next())
+            .ToList();
+        RaisePropertyChanged(nameof(CurrentQuestion));
+        RaisePropertyChanged(nameof(Answers));
     }
 
     public string ResultScreenText
