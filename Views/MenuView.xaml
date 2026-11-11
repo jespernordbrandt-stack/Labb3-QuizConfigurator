@@ -9,8 +9,15 @@
     <Grid>
         <Menu>
             <MenuItem Header="_File">
-                <MenuItem Header="_New Question pack" />
-                <MenuItem Header="E_xit" InputGestureText="Alt+F4" />
+
+                <MenuItem Header="_New Question Pack" />
+
+                <MenuItem Header="_Exit"
+                        InputGestureText="Alt+F4" />
+
+                <MenuItem Header="_Import Questions"
+                        Command="{Binding ShowImportQuestionsDialogCommand}" />
+
             </MenuItem>
 
             <MenuItem Header="_Edit">

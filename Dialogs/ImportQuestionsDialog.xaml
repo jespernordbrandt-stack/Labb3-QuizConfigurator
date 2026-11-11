@@ -1,0 +1,62 @@
+﻿<Window x:Class="Labb_3.Dialogs.ImportQuestionsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Import Questions"
+        Height="350"
+        Width="400"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Category"
+                   FontWeight="Bold"/>
+
+        <ComboBox Grid.Row="1"
+                  Margin="0,5,0,15"
+                  DisplayMemberPath="Name"
+                  ItemsSource="{Binding Categories}"
+                  SelectedItem="{Binding SelectedCategory}"/>
+
+        <TextBlock Grid.Row="2"
+                   Text="Difficulty"
+                   FontWeight="Bold"/>
+
+        <ComboBox Grid.Row="3"
+                  Margin="0,5,0,15"
+                  SelectedItem="{Binding SelectedDifficulty}">
+
+            <ComboBoxItem Content="Easy"/>
+            <ComboBoxItem Content="Medium"/>
+            <ComboBoxItem Content="Hard"/>
+
+        </ComboBox>
+
+        <StackPanel Grid.Row="4">
+
+            <TextBlock Text="Question Amount"
+                       FontWeight="Bold"/>
+
+            <TextBox Margin="0,5,0,0"
+                     Text="{Binding QuestionAmount}"/>
+
+        </StackPanel>
+
+        <Button Grid.Row="5"
+                Margin="0,20,0,0"
+                Height="35"
+                Content="Import"
+                Command="{Binding ImportQuestionsCommand}"/>
+
+    </Grid>
+
+</Window>

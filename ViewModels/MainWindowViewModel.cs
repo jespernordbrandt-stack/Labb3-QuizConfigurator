@@ -1,4 +1,5 @@
 ﻿using Labb_3.Command;
+using Labb_3.Dialogs;
 using Labb_3.Models;
 using Labb_3.Services;
 using System.Collections.ObjectModel;
@@ -14,17 +15,43 @@ internal class MainWindowViewModel : ViewModelBase
 {
     public ObservableCollection<QuestionPackViewModel> Packs { get; } 
         = new ObservableCollection<QuestionPackViewModel>(); //Skapar en tom lista med QuestionPacks
-    
+    public ObservableCollection<TriviaCategory> Categories { get; }
+    = new();
+
     public RelayCommand ShowPlayModeCommand { get; }
     public RelayCommand ShowEditModeCommand { get; }
     public RelayCommand ImportQuestionsCommand { get; }
+    public RelayCommand ShowImportQuestionsDialogCommand { get; }
 
     private readonly JsonService _jsonService = new();
+    private readonly OpenTriviaService _openTriviaService = new();
+
     private bool _isplayMode;
+    private int _questionAmount = 5;
+    private Difficulty _selectedDifficulty = Difficulty.Easy;
     private QuestionPackViewModel? _activePack;
+    private TriviaCategory? _selectedCategory;
 
     public PlayerViewModel? PlayerViewModel { get; }
     public ConfigurationViewModel? ConfigurationViewModel { get; }
+
+    public Difficulty SelectedDifficulty
+    {
+        get => _selectedDifficulty;
+        set => SetProperty(ref _selectedDifficulty, value);
+    }
+
+    public int QuestionAmount
+    {
+        get => _questionAmount;
+        set => SetProperty(ref _questionAmount, value);
+    }
+
+    public TriviaCategory? SelectedCategory
+    {
+        get => _selectedCategory;
+        set => SetProperty(ref _selectedCategory, value);
+    }
 
     public bool IsPlayMode
     {
@@ -44,15 +71,23 @@ internal class MainWindowViewModel : ViewModelBase
         }
     }
 
+    private void ShowImportQuestionsDialog()
+    {
+        ImportQuestionsDialog dialog = new();
+
+        dialog.DataContext = this;
+
+        dialog.ShowDialog();
+    }
+
     public MainWindowViewModel()
     {
 		PlayerViewModel = new PlayerViewModel(this);
         ConfigurationViewModel = new ConfigurationViewModel(this);
 
         ShowPlayModeCommand = new RelayCommand(_ => { IsPlayMode = true; PlayerViewModel?.StartQuiz(); });
-
         ShowEditModeCommand = new RelayCommand(_ => IsPlayMode = false);
-
+        ShowImportQuestionsDialogCommand = new RelayCommand(_ => ShowImportQuestionsDialog());
         ImportQuestionsCommand = new RelayCommand(async _ => await ImportQuestionsAsync());
 
         var questionPack = new QuestionPack("Mina frågor!", Difficulty.Easy); //Skapar ett testpaket
@@ -65,6 +100,8 @@ internal class MainWindowViewModel : ViewModelBase
         Packs.Add(packViewModel); // Lägger till paketet i listan med QuestionPacks
 
         ActivePack = packViewModel; //Väljer paketet
+
+        _ = LoadCategoriesAsync();
     }
 
     public async Task SavePacksAsync()
@@ -80,6 +117,21 @@ internal class MainWindowViewModel : ViewModelBase
         List<QuestionPack> packs = Packs.Select(pack => pack.Model).ToList();
         
         await _jsonService.SaveAsync(packs, filePath);
+    }
+
+    private async Task LoadCategoriesAsync()
+    {
+        List<TriviaCategory> categories =
+            await _openTriviaService.GetCategoriesAsync();
+
+        Categories.Clear();
+
+        foreach (TriviaCategory category in categories)
+        {
+            Categories.Add(category);
+        }
+
+        SelectedCategory = Categories.FirstOrDefault();
     }
 
     public async Task LoadPacksAsync()
@@ -99,6 +151,7 @@ internal class MainWindowViewModel : ViewModelBase
         {
             Packs.Add(new QuestionPackViewModel(pack));
         }
+        
         MessageBox.Show(packs[0].Questions.Count.ToString());
 
         ActivePack = Packs.FirstOrDefault();
@@ -108,13 +161,22 @@ internal class MainWindowViewModel : ViewModelBase
     {
         OpenTriviaService service = new();
 
+        if (SelectedCategory == null)
+        {
+            MessageBox.Show("No category selected.");
+
+            return;
+        }
+
         List<TriviaQuestion> questions =
-            await service.GetQuestionsAsync(5, 9);
+            await service.GetQuestionsAsync(
+                QuestionAmount,
+                SelectedCategory.Id);
 
         QuestionPack importedPack =
             new QuestionPack(
-                "Imported Pack",
-                Difficulty.Easy);
+            "Imported Pack",
+            SelectedDifficulty);
 
         foreach (TriviaQuestion triviaQuestion in questions)
         {
