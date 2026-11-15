@@ -1,5 +1,6 @@
 ﻿using Labb_3.Models;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -32,9 +33,9 @@ public class OpenTriviaService
 
             return response?.Results.Select(q => new TriviaQuestion
             {
-                Question = q.Question,
-                CorrectAnswer = q.CorrectAnswer,
-                IncorrectAnswers = q.IncorrectAnswers
+                Question = WebUtility.HtmlDecode(q.Question),
+                CorrectAnswer = WebUtility.HtmlDecode(q.CorrectAnswer),
+                IncorrectAnswers = q.IncorrectAnswers.Select(answer => WebUtility.HtmlDecode(answer) ?? "").ToList()
             }).ToList() ?? new();
         }
         catch (Exception ex)

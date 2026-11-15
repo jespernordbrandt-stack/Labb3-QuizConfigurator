@@ -47,12 +47,17 @@
                          Content="Add Pack"
                          Command="{Binding AddPackCommand}" />
 
-                <Button Grid.Row="2"
+                <Button Grid.Row ="2"
+                        Margin="0,5,0,0"
+                        Content="Remove Pack"
+                        Command="{Binding RemovePackCommand}"/>
+
+                <Button Grid.Row="3"
                          Margin="0,5,0,0"
                          Content="Save Packs"
                          Command="{Binding SavePacksCommand}" />
 
-                <Button Grid.Row="3"
+                <Button Grid.Row="4"
                          Margin="0,5,0,0"
                          Content="Load Packs"
                          Command="{Binding LoadPacksCommand}" />
