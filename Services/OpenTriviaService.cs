@@ -12,12 +12,12 @@ public class OpenTriviaService
 {
     private readonly HttpClient _httpClient = new();
 
-    public async Task<List<TriviaQuestion>> GetQuestionsAsync(int amount, int categoryId)
+    public async Task<List<TriviaQuestion>> GetQuestionsAsync(int amount, int categoryId, string difficulty)
     {
         try
         {
             string url =
-                $"https://opentdb.com/api.php?amount={amount}&category={categoryId}&type=multiple";
+    $"https://opentdb.com/api.php?amount={amount}&category={categoryId}&difficulty={difficulty}&type=multiple";
 
             string json =
                 await _httpClient.GetStringAsync(url);

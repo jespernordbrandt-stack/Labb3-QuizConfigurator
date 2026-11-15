@@ -27,30 +27,37 @@ internal class MainWindowViewModel : ViewModelBase
     private readonly OpenTriviaService _openTriviaService = new();
 
     private bool _isplayMode;
-    private int _questionAmount = 5;
-    private Difficulty _selectedDifficulty = Difficulty.Easy;
+    private int _importQuestionAmount = 5;
+    private Difficulty _selectedImportDifficulty = Difficulty.Easy;
     private QuestionPackViewModel? _activePack;
-    private TriviaCategory? _selectedCategory;
+    private TriviaCategory? _selectedImportCategory;
 
     public PlayerViewModel? PlayerViewModel { get; }
     public ConfigurationViewModel? ConfigurationViewModel { get; }
 
-    public Difficulty SelectedDifficulty
+    public List<Difficulty> ImportDifficulties { get; } =
+[
+    Difficulty.Easy,
+    Difficulty.Medium,
+    Difficulty.Hard
+];
+
+    public Difficulty SelectedImportDifficulty
     {
-        get => _selectedDifficulty;
-        set => SetProperty(ref _selectedDifficulty, value);
+        get => _selectedImportDifficulty;
+        set => SetProperty(ref _selectedImportDifficulty, value);
     }
 
-    public int QuestionAmount
+    public int ImportQuestionAmount
     {
-        get => _questionAmount;
-        set => SetProperty(ref _questionAmount, value);
+        get => _importQuestionAmount;
+        set => SetProperty(ref _importQuestionAmount, value);
     }
 
-    public TriviaCategory? SelectedCategory
+    public TriviaCategory? SelectedImportCategory
     {
-        get => _selectedCategory;
-        set => SetProperty(ref _selectedCategory, value);
+        get => _selectedImportCategory;
+        set => SetProperty(ref _selectedImportCategory, value);
     }
 
     public bool IsPlayMode
@@ -131,7 +138,7 @@ internal class MainWindowViewModel : ViewModelBase
             Categories.Add(category);
         }
 
-        SelectedCategory = Categories.FirstOrDefault();
+        SelectedImportCategory = Categories.FirstOrDefault();
     }
 
     public async Task LoadPacksAsync()
@@ -159,9 +166,9 @@ internal class MainWindowViewModel : ViewModelBase
 
     private async Task ImportQuestionsAsync()
     {
-        OpenTriviaService service = new();
+        
 
-        if (SelectedCategory == null)
+        if (SelectedImportCategory == null)
         {
             MessageBox.Show("No category selected.");
 
@@ -169,14 +176,15 @@ internal class MainWindowViewModel : ViewModelBase
         }
 
         List<TriviaQuestion> questions =
-            await service.GetQuestionsAsync(
-                QuestionAmount,
-                SelectedCategory.Id);
+            await _openTriviaService.GetQuestionsAsync(
+                ImportQuestionAmount,
+                SelectedImportCategory.Id,
+                SelectedImportDifficulty.ToString().ToLower());
 
         QuestionPack importedPack =
             new QuestionPack(
             "Imported Pack",
-            SelectedDifficulty);
+            SelectedImportDifficulty);
 
         foreach (TriviaQuestion triviaQuestion in questions)
         {
