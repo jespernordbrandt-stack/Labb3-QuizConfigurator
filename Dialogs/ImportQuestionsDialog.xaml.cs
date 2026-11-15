@@ -10,16 +10,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Labb_3.Dialogs
+namespace Labb_3.Dialogs;
+
+public partial class ImportQuestionsDialog : Window
 {
-    /// <summary>
-    /// Interaction logic for ImportQuestionsDialog.xaml
-    /// </summary>
-    public partial class ImportQuestionsDialog : Window
+    public ImportQuestionsDialog()
     {
-        public ImportQuestionsDialog()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    private void ImportButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
     }
 }

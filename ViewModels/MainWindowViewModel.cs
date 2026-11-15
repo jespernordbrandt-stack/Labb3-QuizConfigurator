@@ -181,6 +181,11 @@ internal class MainWindowViewModel : ViewModelBase
                 SelectedImportCategory.Id,
                 SelectedImportDifficulty.ToString().ToLower());
 
+        if (questions.Count == 0)
+        {
+            return;
+        }
+
         QuestionPack importedPack =
             new QuestionPack(
             "Imported Pack",
