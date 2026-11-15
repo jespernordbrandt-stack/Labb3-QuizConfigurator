@@ -1,70 +1,210 @@
 ﻿<UserControl x:Class="Labb_3.Views.ConfigurationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Labb_3.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <StackPanel>
-            <TextBox Text="{Binding DemoText, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Content="{Binding ActivePack.Name}"
-                Command="{Binding ChangePackNameCommand}"
-                CommandParameter="My sample parameter" />
+             d:DesignHeight="450"
+             d:DesignWidth="1000">
 
-            <TextBlock Text="Pack Name" />
-            <TextBox Text="{Binding ActivePack.Name}" />
+    <Grid Margin="10">
 
-            <TextBlock Text="Time Limit (seconds)" />
-            <TextBox Text="{Binding ActivePack.TimeLimitInSeconds}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <ListBox ItemsSource="{Binding ActivePack.Questions}"
-                    SelectedItem="{Binding SelectedQuestion}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Query}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            
-            <Button Content="Save Packs" Command="{Binding SavePacksCommand}" />
-            <Button Content="Load Packs" Command="{Binding LoadPacksCommand}" />
-            <Button Content="Add Question" Command="{Binding AddQuestionCommand}" />
-            <Button Content="Add Pack" Command="{Binding AddPackCommand}" />
+        <!-- Vänster sida -->
+        <GroupBox Grid.Column="0"
+                  Header="Question Packs"
+                  Margin="0,0,10,0">
 
-            <ListBox ItemsSource="{Binding Packs}"
-                     SelectedItem="{Binding ActivePack}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            
-            <TextBlock Text="Question"/>
-            <TextBox Text="{Binding SelectedQuestion.Query}"/>
+            <Grid Margin="10">
 
-            <TextBlock Text="Correct Answer"/>
-            <TextBox Text="{Binding SelectedQuestion.CorrectAnswer}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <TextBlock Text="Wrong Answer 1" />
-            <TextBox Text="{Binding SelectedQuestion.IncorrectAnswers[0]}" />
+                <ListBox Grid.Row="0"
+                         ItemsSource="{Binding Packs}"
+                         SelectedItem="{Binding ActivePack}">
 
-            <TextBlock Text="Wrong Answer 2" />
-            <TextBox Text="{Binding SelectedQuestion.IncorrectAnswers[1]}" />
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
 
-            <TextBlock Text="Wrong Answer 3" />
-            <TextBox Text="{Binding SelectedQuestion.IncorrectAnswers[2]}" />
-            
-            <TextBlock Text="Difficulty" />
-            <ComboBox ItemsSource="{Binding ActivePack.Difficulties}"
-                    SelectedItem="{Binding ActivePack.Difficulty}" >
-            </ComboBox>
-            
-        </StackPanel>
+                </ListBox>
+
+                <Button Grid.Row="1"
+                         Margin="0,5,0,0"
+                         Content="Add Pack"
+                         Command="{Binding AddPackCommand}" />
+
+                <Button Grid.Row="2"
+                         Margin="0,5,0,0"
+                         Content="Save Packs"
+                         Command="{Binding SavePacksCommand}" />
+
+                <Button Grid.Row="3"
+                         Margin="0,5,0,0"
+                         Content="Load Packs"
+                         Command="{Binding LoadPacksCommand}" />
+
+            </Grid>
+
+        </GroupBox>
+
+        <!-- Höger sida -->
+        <Grid Grid.Column="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Pack settings -->
+
+            <GroupBox Header="Pack Settings"
+                      Grid.Row="0"
+                      Margin="0,0,0,10">
+
+                <Grid Margin="10">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="Pack Name"/>
+
+                    <TextBox Grid.Row="0"
+                             Grid.Column="1"
+                             Margin="5"
+                             Text="{Binding ActivePack.Name}" />
+
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="Time Limit"/>
+
+                    <TextBox Grid.Row="1"
+                             Grid.Column="1"
+                             Margin="5"
+                             Text="{Binding ActivePack.TimeLimitInSeconds}" />
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="Difficulty"/>
+
+                    <ComboBox Grid.Row="2"
+                              Grid.Column="1"
+                              Margin="5"
+                              ItemsSource="{Binding ActivePack.Difficulties}"
+                              SelectedItem="{Binding ActivePack.Difficulty}" />
+
+                </Grid>
+
+            </GroupBox>
+
+            <!-- Questions -->
+
+            <GroupBox Header="Questions"
+                      Grid.Row="3"
+                      Margin="0,0,0,10">
+
+                <Grid Margin="10">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ListBox Grid.Row="0"
+                             ItemsSource="{Binding ActivePack.Questions}"
+                             SelectedItem="{Binding SelectedQuestion}">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Query}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+
+                    <StackPanel Grid.Row="1"
+                                Orientation="Horizontal"
+                                Margin="0,5,0,0">
+
+                        <Button Content="Add Question"
+                                Margin="0,0,5,0"
+                                Command="{Binding AddQuestionCommand}" />
+
+                        <Button Content="Remove Question"
+                                Command="{Binding RemoveQuestionCommand}" />
+
+                    </StackPanel>
+
+                </Grid>
+
+            </GroupBox>
+
+            <!-- Editor -->
+
+            <GroupBox Header="Question Editor"
+                      Grid.Row="4">
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                    <StackPanel Margin="10">
+
+                        <TextBlock Text="Question"/>
+                        <TextBox Margin="0,5,0,10"
+                                 Text="{Binding SelectedQuestion.Query}" />
+
+                        <TextBlock Text="Correct Answer"/>
+                        <TextBox Margin="0,5,0,10"
+                                 Text="{Binding SelectedQuestion.CorrectAnswer}" />
+
+                        <TextBlock Text="Wrong Answer 1"/>
+                        <TextBox Margin="0,5,0,10"
+                                 Text="{Binding SelectedQuestion.IncorrectAnswers[0]}" />
+
+                        <TextBlock Text="Wrong Answer 2"/>
+                        <TextBox Margin="0,5,0,10"
+                                 Text="{Binding SelectedQuestion.IncorrectAnswers[1]}" />
+
+                        <TextBlock Text="Wrong Answer 3"/>
+                        <TextBox Margin="0,5,0,10"
+                                 Text="{Binding SelectedQuestion.IncorrectAnswers[2]}" />
+
+                    </StackPanel>
+
+                </ScrollViewer>
+
+            </GroupBox>
+
+        </Grid>
+
     </Grid>
+
 </UserControl>

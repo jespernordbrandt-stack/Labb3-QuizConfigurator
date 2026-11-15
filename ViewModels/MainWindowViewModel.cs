@@ -158,8 +158,6 @@ internal class MainWindowViewModel : ViewModelBase
         {
             Packs.Add(new QuestionPackViewModel(pack));
         }
-        
-        MessageBox.Show(packs[0].Questions.Count.ToString());
 
         ActivePack = Packs.FirstOrDefault();
     }
