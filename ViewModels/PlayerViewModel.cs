@@ -214,15 +214,7 @@ internal class PlayerViewModel : ViewModelBase
 
     public void StartQuiz()
     {
-        CurrentQuestionIndex = 0;
-        IsQuizFinished = false;
-
-        ShuffleQuestions();
-
-        RaisePropertyChanged(nameof(CurrentQuestion));
-        RaisePropertyChanged(nameof(Answers));
-
-        StartTimer();
+        RestartQuiz();
     }
 
     private int _currentQuestionIndex = 0;
