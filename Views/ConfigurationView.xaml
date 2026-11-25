@@ -104,7 +104,8 @@
                     <TextBox Grid.Row="0"
                              Grid.Column="1"
                              Margin="5"
-                             Text="{Binding ActivePack.Name}" />
+                             Text="{Binding ActivePack.Name,
+                                    UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
@@ -114,7 +115,8 @@
                     <TextBox Grid.Row="1"
                              Grid.Column="1"
                              Margin="5"
-                             Text="{Binding ActivePack.TimeLimitInSeconds}" />
+                             Text="{Binding ActivePack.TimeLimitInSeconds,
+                                    UpdateSourceTrigger=PropertyChanged}" />
 
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
