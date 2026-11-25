@@ -22,6 +22,7 @@ internal class MainWindowViewModel : ViewModelBase
     public RelayCommand ShowEditModeCommand { get; }
     public RelayCommand ImportQuestionsCommand { get; }
     public RelayCommand ShowImportQuestionsDialogCommand { get; }
+    public RelayCommand ExitCommand { get; }
 
     private readonly JsonService _jsonService = new();
     private readonly OpenTriviaService _openTriviaService = new();
@@ -96,6 +97,7 @@ internal class MainWindowViewModel : ViewModelBase
         ShowEditModeCommand = new RelayCommand(_ => IsPlayMode = false);
         ShowImportQuestionsDialogCommand = new RelayCommand(_ => ShowImportQuestionsDialog());
         ImportQuestionsCommand = new RelayCommand(async _ => await ImportQuestionsAsync());
+        ExitCommand = new RelayCommand(_ => Application.Current.Shutdown());
 
         var questionPack = new QuestionPack("Mina frågor!", Difficulty.Easy); //Skapar ett testpaket
         

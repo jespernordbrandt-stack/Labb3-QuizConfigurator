@@ -21,7 +21,8 @@ internal class PlayerViewModel : ViewModelBase
 
     private int _score;
     private int _timeRemaining;
-    
+    private bool _canAnswer = true;
+
 
     public int Score
     {
@@ -166,6 +167,13 @@ internal class PlayerViewModel : ViewModelBase
 
     private void CheckAnswer(object? answer)
     {
+        if (!_canAnswer || IsQuizFinished)
+        {
+            return;
+        }
+
+        _canAnswer = false;
+
         if (CurrentQuestion == null)
         {
             return;
@@ -196,6 +204,8 @@ internal class PlayerViewModel : ViewModelBase
 
         if (TimeRemaining <= 0)
         {
+            _canAnswer = false;
+
             _timer.Stop();
 
             ResultText = $"Time's up! Correct answer: {CurrentQuestion?.CorrectAnswer}";
@@ -235,6 +245,8 @@ internal class PlayerViewModel : ViewModelBase
 
     private void StartTimer()
     {
+        _canAnswer = true;
+
         if (_mainWindowViewModel?.ActivePack == null)
         {
             return;
