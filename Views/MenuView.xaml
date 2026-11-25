@@ -29,13 +29,6 @@ Command="{Binding ConfigurationViewModel.AddQuestionCommand}" />
 Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}" />
             </MenuItem>
 
-           
-
-            <MenuItem Header="Set Pack _Name"
-            InputGestureText="Ctrl+N"
-            Command="{Binding ConfigurationViewModel.ChangePackNameCommand}" />
-
-
             <MenuItem Header="_View">
                 <MenuItem Header="_Edit Mode" 
                           Command="{Binding ShowEditModeCommand}"/>

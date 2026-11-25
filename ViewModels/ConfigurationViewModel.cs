@@ -72,9 +72,9 @@ internal class ConfigurationViewModel : ViewModelBase
 
         RemovePackCommand = new RelayCommand(_=> RemovePack(), _=> ActivePack != null); //kopplar RemovePackCommand till RemovePack metoden och gör att den bara kan köras om ActivePack inte är null
 
-        AddQuestionCommand = new RelayCommand(_ => AddQuestion(), _ => ActivePack != null); //kopplar AddQuestionCommand till AddQuestion metoden och gör att den bara kan köras om ActivePack inte är null
+        AddQuestionCommand = new RelayCommand(_ => AddQuestion(), _ => ActivePack != null && !_mainWindowViewModel!.IsPlayMode); //kopplar AddQuestionCommand till AddQuestion metoden och gör att den bara kan köras om ActivePack inte är null
 
-        RemoveQuestionCommand = new RelayCommand(_ => RemoveQuestion(), _ => ActivePack != null); //kopplar RemoveQuestionCommand till RemoveQuestion metoden och gör att den bara kan köras om ActivePack inte är null och det finns frågor i ActivePack
+        RemoveQuestionCommand = new RelayCommand(_ => RemoveQuestion(), _ => ActivePack != null && !_mainWindowViewModel!.IsPlayMode); //kopplar RemoveQuestionCommand till RemoveQuestion metoden och gör att den bara kan köras om ActivePack inte är null och det finns frågor i ActivePack
 
         SavePacksCommand = new RelayCommand(async _ => await SaveAsync());
 

@@ -79,8 +79,10 @@ internal class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private void ShowImportQuestionsDialog()
+    private async void ShowImportQuestionsDialog()
     {
+        await LoadCategoriesAsync();
+
         ImportQuestionsDialog dialog = new();
 
         dialog.DataContext = this;
@@ -93,8 +95,24 @@ internal class MainWindowViewModel : ViewModelBase
 		PlayerViewModel = new PlayerViewModel(this);
         ConfigurationViewModel = new ConfigurationViewModel(this);
 
-        ShowPlayModeCommand = new RelayCommand(_ => { IsPlayMode = true; PlayerViewModel?.StartQuiz(); });
-        ShowEditModeCommand = new RelayCommand(_ => IsPlayMode = false);
+        ShowPlayModeCommand = new RelayCommand(_ =>
+    {
+        IsPlayMode = true;
+
+        ConfigurationViewModel?.AddQuestionCommand.RaiseCanExecuteChanged();
+        ConfigurationViewModel?.RemoveQuestionCommand.RaiseCanExecuteChanged();
+
+        PlayerViewModel?.StartQuiz();
+    });
+
+        ShowEditModeCommand =
+    new RelayCommand(_ =>
+    {
+        IsPlayMode = false;
+
+        ConfigurationViewModel?.AddQuestionCommand.RaiseCanExecuteChanged();
+        ConfigurationViewModel?.RemoveQuestionCommand.RaiseCanExecuteChanged();
+    });
         ShowImportQuestionsDialogCommand = new RelayCommand(_ => ShowImportQuestionsDialog());
         ImportQuestionsCommand = new RelayCommand(async _ => await ImportQuestionsAsync());
         ExitCommand = new RelayCommand(_ => Application.Current.Shutdown());

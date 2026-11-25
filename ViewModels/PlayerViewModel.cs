@@ -55,9 +55,6 @@ internal class PlayerViewModel : ViewModelBase
 
         _timer.Tick += Timer_Tick;
 
-        StartTimer();
-
-
     }
 
     
