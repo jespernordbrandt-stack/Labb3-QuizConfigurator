@@ -7,101 +7,102 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
 
-    <Grid Margin="20">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <!-- Header -->
+            <!-- Header -->
 
-        <DockPanel Grid.Row="0">
+            <DockPanel Grid.Row="0">
 
-            <TextBlock Text="Play Mode"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       DockPanel.Dock="Left"/>
+                <TextBlock Text="Play Mode"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           DockPanel.Dock="Left"/>
 
-            <TextBlock Text="{Binding TimeRemaining}"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       HorizontalAlignment="Right"/>
+                <TextBlock Text="{Binding TimeRemaining}"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Right"/>
 
-        </DockPanel>
+            </DockPanel>
 
-        <!-- Question -->
+            <!-- Question -->
 
-        <Border Grid.Row="1"
-                Margin="0,20,0,20"
-                Padding="15"
-                BorderThickness="1">
+            <Border Grid.Row="1"
+                    Margin="0,20,0,20"
+                    Padding="15"
+                    BorderThickness="1">
 
-            <TextBlock Text="{Binding CurrentQuestion.Query}"
-                       FontSize="22"
-                       TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding CurrentQuestion.Query}"
+                           FontSize="22"
+                           TextWrapping="Wrap"/>
 
-        </Border>
+            </Border>
 
-        <!-- Answers -->
+            <!-- Answers -->
 
-        <ItemsControl Grid.Row="2"
-                      ItemsSource="{Binding Answers}">
+            <ItemsControl Grid.Row="2"
+                          ItemsSource="{Binding Answers}">
 
-            <ItemsControl.ItemTemplate>
+                <ItemsControl.ItemTemplate>
 
-                <DataTemplate>
+                    <DataTemplate>
 
-                    <Button Content="{Binding}"
-                            Margin="0,5,0,5"
-                            Height="45"
-                            FontSize="16"
-                            Command="{Binding DataContext.AnswerCommand,
-                            RelativeSource={RelativeSource AncestorType=UserControl}}"
-                            CommandParameter="{Binding}" />
+                        <Button Content="{Binding}"
+                                Margin="0,5,0,5"
+                                Height="45"
+                                FontSize="16"
+                                Command="{Binding DataContext.AnswerCommand,
+                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding}" />
 
-                </DataTemplate>
+                    </DataTemplate>
 
-            </ItemsControl.ItemTemplate>
+                </ItemsControl.ItemTemplate>
 
-        </ItemsControl>
+            </ItemsControl>
 
-        <!-- Feedback -->
+            <!-- Feedback -->
 
-        <StackPanel Grid.Row="4"
-                    Margin="0,20,0,0">
+            <StackPanel Grid.Row="4"
+                        Margin="0,20,0,0">
 
-            <TextBlock Text="{Binding ResultText}"
-                       FontSize="20"
-                       FontWeight="Bold"/>
+                <TextBlock Text="{Binding ResultText}"
+                           FontSize="20"
+                           FontWeight="Bold"/>
 
-        </StackPanel>
+            </StackPanel>
 
-        <!-- Result Screen -->
+            <!-- Result Screen -->
 
-        <StackPanel Grid.Row="5"
-                    Margin="0,20,0,0">
+            <StackPanel Grid.Row="5"
+                        Margin="0,20,0,0">
 
-            <TextBlock Text="{Binding ResultScreenText}"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding ResultScreenText}"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"/>
 
-            <Button Content="Play Again"
-                    Margin="0,15,0,0"
-                    Height="40"
-                    Width="150"
-                    HorizontalAlignment="Left"
-                    Command="{Binding RestartQuizCommand}"
-                    Visibility="{Binding IsQuizFinished,
-                    Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Button Content="Play Again"
+                        Margin="0,15,0,0"
+                        Height="40"
+                        Width="150"
+                        HorizontalAlignment="Left"
+                        Command="{Binding RestartQuizCommand}"
+                        Visibility="{Binding IsQuizFinished,
+                        Converter={StaticResource BoolToVisibilityConverter}}"/>
 
-        </StackPanel>
+            </StackPanel>
 
-    </Grid>
-
+        </Grid>
+    </ScrollViewer>
 </UserControl>
