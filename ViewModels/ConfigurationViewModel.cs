@@ -1,6 +1,7 @@
 ﻿using Labb_3.Command;
 using Labb_3.Models;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Labb_3.ViewModels;
 
@@ -104,8 +105,22 @@ internal class ConfigurationViewModel : ViewModelBase
         {
             return;
         }
-        _mainWindowViewModel?.Packs.Remove(ActivePack); //Tar bort det aktiva paketet från listan med QuestionPacks i MainWindowViewModel
-        _mainWindowViewModel!.ActivePack = _mainWindowViewModel.Packs.FirstOrDefault();
+
+        MessageBoxResult result = MessageBox.Show(
+            $"Remove selected pack \"{ActivePack.Name}\"?",
+            "Remove Pack",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+
+        if (result == MessageBoxResult.No)
+        {
+            return;
+        }
+
+        _mainWindowViewModel!.Packs.Remove(ActivePack!);
+
+        _mainWindowViewModel!.ActivePack =
+            _mainWindowViewModel!.Packs.FirstOrDefault();
     }
 
     private void AddQuestion()

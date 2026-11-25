@@ -115,6 +115,17 @@ internal class MainWindowViewModel : ViewModelBase
 
     public async Task SavePacksAsync()
     {
+        MessageBoxResult result = MessageBox.Show(
+            "Do you want to save all current packs?",
+            "Save Packs",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.No)
+        {
+            return;
+        }
+
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         string folderPath = Path.Combine(appDataPath, "Labb_3");
@@ -145,6 +156,17 @@ internal class MainWindowViewModel : ViewModelBase
 
     public async Task LoadPacksAsync()
     {
+        MessageBoxResult result = MessageBox.Show(
+            "Loading packs will replace your current unsaved changes.\n\nDo you want to continue?",
+            "Load Packs",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+
+        if (result == MessageBoxResult.No)
+        {
+            return;
+        }
+
         string appDataPath =
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
