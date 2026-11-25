@@ -184,23 +184,28 @@
 
                         <TextBlock Text="Question"/>
                         <TextBox Margin="0,5,0,10"
-                                 Text="{Binding SelectedQuestion.Query}" />
+                                 Text="{Binding SelectedQuestion.Query,
+                UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Text="Correct Answer"/>
                         <TextBox Margin="0,5,0,10"
-                                 Text="{Binding SelectedQuestion.CorrectAnswer}" />
+                                 Text="{Binding SelectedQuestion.CorrectAnswer,
+                UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Text="Wrong Answer 1"/>
                         <TextBox Margin="0,5,0,10"
-                                 Text="{Binding SelectedQuestion.IncorrectAnswers[0]}" />
+                                 Text="{Binding SelectedQuestion.IncorrectAnswers[0],
+                UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Text="Wrong Answer 2"/>
                         <TextBox Margin="0,5,0,10"
-                                 Text="{Binding SelectedQuestion.IncorrectAnswers[1]}" />
+                                 Text="{Binding SelectedQuestion.IncorrectAnswers[1],
+                UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Text="Wrong Answer 3"/>
                         <TextBox Margin="0,5,0,10"
-                                 Text="{Binding SelectedQuestion.IncorrectAnswers[2]}" />
+                                 Text="{Binding SelectedQuestion.IncorrectAnswers[2],
+                UpdateSourceTrigger=PropertyChanged}" />
 
                     </StackPanel>
 

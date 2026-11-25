@@ -188,7 +188,7 @@ internal class PlayerViewModel : ViewModelBase
         }
         else
         {
-            ResultText = "Wrong!";
+            ResultText = $"Wrong! Correct answer: {CurrentQuestion.CorrectAnswer}";
         }
 
         RaisePropertyChanged(nameof(ResultText));
